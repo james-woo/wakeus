@@ -1,0 +1,49 @@
+version: '3.1'
+services:
+  hardware:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.hardware
+    ports:
+      - 50051:50051
+    privileged: true
+    command: ["python3", "-u", "server.py"]
+
+  database:
+    image: arm32v6/postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: rpi
+      POSTGRES_DB: wakeus
+    ports:
+      - 5432:5432
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+
+  server:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    environment:
+      - HARDWARE_SERVICE_HOST=hardware:50051
+      - PGHOST=database
+      - PGDATABASE=wakeus
+      - PGUSER=rpi
+      - PGPASSWORD=password
+    links:
+      - database:database
+      - hardware:hardware
+    depends_on:
+      - database
+      - hardware
+    ports:
+      - 8888:8888
+    expose:
+      - 8888
+    command: ["go", "run", "main.go"]
+
+volumes:
+  postgresql_data:

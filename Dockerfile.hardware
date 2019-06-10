@@ -1,0 +1,23 @@
+FROM raspbian/stretch
+
+RUN apt-get update && apt-get install -y \
+ build-essential \
+ python3-dev \
+ python3-pip \
+ unzip \
+ wget \
+ scons \
+ swig
+
+RUN wget https://github.com/jgarff/rpi_ws281x/archive/master.zip \
+ && unzip master.zip \
+ && cd rpi_ws281x-master \
+ && scons \
+ && pip3 install --extra-index-url=https://www.piwheels.org/simple rpi_ws281x \
+ && pip3 install --extra-index-url=https://www.piwheels.org/simple grpcio \
+ && pip3 install --extra-index-url=https://www.piwheels.org/simple grpcio-tools==1.19
+
+COPY . /wakeus
+WORKDIR /wakeus/hardware
+
+CMD ["python", "server.py"]

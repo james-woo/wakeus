@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package rpc;
+
+message Color {
+    int32 r = 1;
+    int32 g = 2;
+    int32 b = 3;
+}
+
+message BasicRequest {
+    Color color = 1;
+    int32 intensity = 2;
+}
+
+message BasicResponse {
+    bool result = 1;
+}
+
+message FadeRequest {
+    Color startColor = 1;
+    Color endColor = 2;
+    int32 startIntensity = 3;
+    int32 endIntensity = 4;
+    int32 duration = 5;
+}
+
+message FadeResponse {
+    bool result = 1;
+}
+
+message TestRequest {
+
+}
+
+message TestResponse {
+    bool result = 1;
+}
+
+message ClearRequest {
+
+}
+
+message ClearResponse {
+    bool result = 1;
+}
+
+service HardwareCommand {
+    rpc Basic(BasicRequest) returns (BasicResponse);
+    rpc Fade(FadeRequest) returns (FadeResponse);
+    rpc Clear(ClearRequest) returns (ClearResponse);
+    rpc Test(TestRequest) returns (TestResponse);
+}
