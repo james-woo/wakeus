@@ -22,11 +22,11 @@ services:
     volumes:
       - postgresql_data:/var/lib/postgresql/data
 
-  server:
+  api:
     restart: always
     build:
       context: .
-      dockerfile: Dockerfile.server
+      dockerfile: Dockerfile.api
     environment:
       - HARDWARE_SERVICE_HOST=hardware:50051
       - PGHOST=database

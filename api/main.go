@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/james-woo/wakeus/server/app"
-	"github.com/james-woo/wakeus/server/controllers"
-	"github.com/james-woo/wakeus/server/jobs"
-	"github.com/james-woo/wakeus/server/rpc"
+	"github.com/james-woo/wakeus/api/app"
+	"github.com/james-woo/wakeus/api/controllers"
+	"github.com/james-woo/wakeus/api/jobs"
+	"github.com/james-woo/wakeus/api/rpc"
 	"net/http"
 	"os"
 )
@@ -16,9 +16,6 @@ import (
 func main() {
 	router := mux.NewRouter()
 	router.Use(app.JwtAuthentication) // Attach JWT auth middleware
-
-	// Login
-	router.HandleFunc("/api/user/login", controllers.Authenticate).Methods("POST")
 
 	// Tasks
 	router.HandleFunc("/api/task", controllers.CreateTask).Methods("POST")
@@ -34,7 +31,7 @@ func main() {
 
 	// Launch periodic tasks
 	fmt.Printf("Launching tasks\n")
-	jobs.LaunchTasks()
+	jobs.LaunchTasks(context.Background())
 
 	//Perform hardware test
 	fmt.Printf("Performing hardware test\n")

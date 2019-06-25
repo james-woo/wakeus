@@ -12,7 +12,7 @@ import (
 var db *gorm.DB
 
 func init() {
-	err := godotenv.Load("./server/.env")
+	err := godotenv.Load("./api/.env")
 
 	var username string
 	var password string
@@ -40,17 +40,17 @@ func init() {
 	}
 
 	db = conn
-	db.AutoMigrate(&Account{}, &Task{})
+	db.AutoMigrate(&Task{})
 
-	// Seed database with admin account
-	adminUsername := os.Getenv("accounts_admin_username")
-	adminPassword := os.Getenv("accounts_admin_password")
-	var admin Account
-	db.FirstOrInit(&admin, map[string]interface{}{
-		"username": adminUsername,
-		"password": adminPassword,
-		"token": "",
+	// Seed database with task
+	var task Task
+	db.Debug().FirstOrCreate(&task, Task{
+		Schedule: "0 0 7 ? * MON,TUE,WED,THU,FRI",
+		Type: "fade",
+		Data: `{"start_color":{"r":0,"g":-50,"b":-120},"end_color":{"r":255,"g":130,"b":40},"start_intensity":0,"end_intensity":1,"duration":1200000}`,
 	})
+
+	fmt.Printf("Initialized database\n")
 }
 
 func GetDB() *gorm.DB {

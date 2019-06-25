@@ -1,10 +1,9 @@
 package app
 
 import (
-	"context"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/james-woo/wakeus/server/models"
-	"github.com/james-woo/wakeus/server/utils"
+	"github.com/james-woo/wakeus/api/models"
+	"github.com/james-woo/wakeus/api/utils"
 	"net/http"
 	"os"
 	"strings"
@@ -13,17 +12,6 @@ import (
 var JwtAuthentication = func(next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
-			notAuth := []string{"/api/user/new", "/api/user/login"} // List of endpoints that do not require auth
-			requestPath := r.URL.Path // Current request path
-
-			// Check if request does not need authentication, serve the request if it doesn't need auth
-			for _, value := range notAuth {
-				if value == requestPath {
-					next.ServeHTTP(w, r)
-					return
-				}
-			}
-
 			tokenHeader := r.Header.Get("Authorization")
 
 			if tokenHeader == "" {
@@ -54,8 +42,6 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 				return
 			}
 
-			ctx := context.WithValue(r.Context(), "user", tk.UserId)
-			r = r.WithContext(ctx)
 			next.ServeHTTP(w, r)
 		},
 	)
