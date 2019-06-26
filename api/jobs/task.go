@@ -22,7 +22,7 @@ var LaunchTasks = func(ctx context.Context) {
 			{
 				err := c.AddFunc(task.Schedule, func() {
 					fmt.Printf("Performing hardware basic with data: %s\n", task.Data)
-					var basic = models.Basic{}
+					var basic= models.Basic{}
 					if err := json.Unmarshal([]byte(task.Data), &basic); err != nil {
 						log.Fatal(err)
 					}
@@ -40,7 +40,7 @@ var LaunchTasks = func(ctx context.Context) {
 			{
 				err := c.AddFunc(task.Schedule, func() {
 					fmt.Printf("Performing hardware fade with data: %s\n", task.Data)
-					var fade = models.Fade{}
+					var fade= models.Fade{}
 					if err := json.Unmarshal([]byte(task.Data), &fade); err != nil {
 						log.Fatal(err)
 					}
@@ -52,6 +52,16 @@ var LaunchTasks = func(ctx context.Context) {
 						fade.EndIntensity,
 						fade.Duration,
 					)
+				})
+				if err != nil {
+					log.Fatal(err)
+				}
+			}
+		case "clear":
+			{
+				err := c.AddFunc(task.Schedule, func() {
+					fmt.Printf("Performing hardware clear\n")
+					rpc.PerformClear(ctx)
 				})
 				if err != nil {
 					log.Fatal(err)

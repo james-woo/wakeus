@@ -45,9 +45,13 @@ func init() {
 	// Seed database with task
 	var task Task
 	db.Debug().FirstOrCreate(&task, Task{
-		Schedule: "0 0 7 ? * MON,TUE,WED,THU,FRI",
+		Schedule: "0 30 6 ? * MON,TUE,WED,THU,FRI",
 		Type: "fade",
-		Data: `{"start_color":{"r":0,"g":-50,"b":-120},"end_color":{"r":255,"g":130,"b":40},"start_intensity":0,"end_intensity":1,"duration":1200000}`,
+		Data: `{"start_color":{"r":0,"g":-50,"b":-120},"end_color":{"r":255,"g":130,"b":40},"start_intensity":0,"end_intensity":1,"duration":3600000}`,
+	})
+	db.Debug().FirstOrCreate(&task, Task{
+		Schedule: "0 0 8 ? * MON,TUE,WED,THU,FRI",
+		Type: "clear",
 	})
 
 	fmt.Printf("Initialized database\n")
