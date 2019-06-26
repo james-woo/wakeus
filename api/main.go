@@ -21,7 +21,7 @@ func main() {
 	router.HandleFunc("/api/task", controllers.CreateTask).Methods("POST")
 	router.HandleFunc("/api/tasks", controllers.GetTasks).Methods("GET")
 	router.HandleFunc("/api/tasks/{task_id:[0-9]+}", controllers.GetTask).Methods("GET")
-	router.HandleFunc("/api/tasks/{task_id:[0-9]+}", controllers.UpdateTask).Methods("PUT")
+	router.HandleFunc("/api/tasks/{task_id:[0-9]+}", controllers.UpdateTask).Methods("PATCH")
 	router.HandleFunc("/api/tasks/{task_id:[0-9]+}", controllers.DeleteTask).Methods("DELETE")
 
 	port := os.Getenv("PORT")

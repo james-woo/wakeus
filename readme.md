@@ -140,32 +140,191 @@ Files generated using these commands:
 - Go: `protoc --proto_path=proto --proto_path=vendor --go_out=plugins=grpc:server/rpc service.proto`
 - Python: `python -m grpc_tools.protoc --proto_path=proto --python_out=plugins=grpc:hardware --grpc_python_out=./hardware service.proto`
 
-Fade
+**Fade**
 
-Basic
+| Name              | Type   | Description                                    |
+|-------------------|--------|------------------------------------------------|
+| `start_color`     | `hash` | The red, green, blue values ranging from 0-255 |
+| `end_color`       | `hash` | The red, green, blue values ranging from 0-255 |
+| `start_intensity` | `int`  | The intensity of the LEDs ranging from 0-255   |
+| `end_intensity`   | `int`  | The intensity of the LEDs ranging from 0-255   |
+| `duration`        | `int`  | The duration of the fade operation. The fade will start with the `start_color`, `start_intensity` and end with the `end_color`, `end_intensity` |
 
-### Wakeus Server
+**Basic**
+
+| Name        | Type   | Description                                    |
+|-------------|--------|------------------------------------------------|
+| `color`     | `hash` | The red, green, blue values ranging from 0-255 |
+| `intensity` | `int`  | The intensity of the LEDs ranging from 0-255   |
+
+### Wakeus API
 The primary purpose of this server is to provide a RESTful API around tasks created by the client.
 
 #### Task API
+The task API allows you to list, view, edit, and create tasks. 
 
 `POST /task`
 
-Input
+| Name       | Type     | Description                                                        |
+|------------|----------|--------------------------------------------------------------------|
+| `type`     | `string` | The type of command, e.g. `basic`, `fade`                          |
+| `data`     | `string` | The arguments for the command                                      |
+| `schedule` | `string` | The schedule you want the command to run in cron expression format |
 
-| Name | Type | Description |
-|------|------|-------------|
-|      |      |             |
-|      |      |             |
-|      |      |             |
+Example
+```json
+{
+    "type": "fade",
+    "data": {
+      "start_color": {
+        "r": 0,
+        "g": -50,
+        "b": -120
+      },
+      "end_color": {
+        "r": 255,
+        "g": 130,
+        "b": 40
+      },
+      "start_intensity": 0,
+      "end_intensity": 1,
+      "duration":1200000
+    },
+    "schedule": "0 0 7 ? * MON,TUE,WED,THU,FRI"
+}
+```
+
+**List all tasks**
 
 `GET /tasks`
 
+Response
+```
+Status: 200 OK
+Link: localhost:8000/tasks
+
+[
+  {
+    "type": "fade",
+    "data": {
+      "start_color": {
+        "r": 0,
+        "g": -50,
+        "b": -120
+      },
+      "end_color": {
+        "r": 255,
+        "g": 130,
+        "b": 40
+      },
+      "start_intensity": 0,
+      "end_intensity": 1,
+      "duration":1200000
+    },
+    "schedule": "0 0 7 ? * MON,TUE,WED,THU,FRI"
+  }
+]
+```
+
+**Get a task**
+
 `GET /task/:id`
 
-`PUT /task/:id`
+Response
+
+```
+Status: 200 OK
+Link: localhost:8000/task/1
+
+{
+  "type": "fade",
+  "data": {
+    "start_color": {
+      "r": 0,
+      "g": -50,
+      "b": -120
+    },
+    "end_color": {
+      "r": 255,
+      "g": 130,
+      "b": 40
+    },
+    "start_intensity": 0,
+    "end_intensity": 1,
+    "duration":1200000
+  },
+  "schedule": "0 0 7 ? * MON,TUE,WED,THU,FRI"
+}
+```
+
+**Edit a task**
+
+`PATCH /task/:id`
+
+| Name       | Type     | Description                                                        |
+|------------|----------|--------------------------------------------------------------------|
+| `type`     | `string` | The type of command, e.g. `basic`, `fade`                          |
+| `data`     | `string` | The arguments for the command                                      |
+| `schedule` | `string` | The schedule you want the command to run in cron expression format |
+
+Example
+```json
+{
+    "type": "fade",
+    "data": {
+      "start_color": {
+        "r": 0,
+        "g": -50,
+        "b": -120
+      },
+      "end_color": {
+        "r": 255,
+        "g": 130,
+        "b": 40
+      },
+      "start_intensity": 0,
+      "end_intensity": 1,
+      "duration":1200000
+    },
+    "schedule": "0 0 7 ? * MON,TUE,WED,THU,FRI"
+}
+```
+
+Response
+
+```
+Status: 200 OK
+Link: localhost:8000/task/1
+
+{
+  "type": "fade",
+  "data": {
+    "start_color": {
+      "r": 0,
+      "g": -50,
+      "b": -120
+    },
+    "end_color": {
+      "r": 255,
+      "g": 130,
+      "b": 40
+    },
+    "start_intensity": 0,
+    "end_intensity": 1,
+    "duration":1200000
+  },
+  "schedule": "0 0 7 ? * MON,TUE,WED,THU,FRI"
+}
+```
+
+**Delete a task**
 
 `DELETE /task/:id`
+
+Response
+```
+Status: 204 No Content
+```
 
 ### Wakeus App
 
