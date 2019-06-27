@@ -1,0 +1,8 @@
+FROM arm32v6/node:current-alpine
+
+RUN npm install -g http-server
+
+COPY . /wakeus
+WORKDIR /wakeus/client
+
+CMD ["http-server"]

@@ -45,5 +45,22 @@ services:
       - 8888
     command: ["go", "run", "main.go"]
 
+  client:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    links:
+      - api:api
+      - hardware:hardware
+    depends_on:
+      - api
+      - hardware
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+    command: ["http-server"]
+
 volumes:
   postgresql_data:
