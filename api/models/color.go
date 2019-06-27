@@ -1,7 +1,7 @@
 package models
 
 type Color struct {
-	R int32 `json:"r"`
-	G int32 `json:"g"`
-	B int32 `json:"b"`
+	R int `json:"r"`
+	G int `json:"g"`
+	B int `json:"b"`
 }

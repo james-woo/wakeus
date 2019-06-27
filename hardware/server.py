@@ -32,14 +32,21 @@ class HardwareServicer(service_pb2_grpc.HardwareCommandServicer):
         print("End intensity", request.endIntensity, flush=True)
         print("Duration", request.duration, flush=True)
         strip.clear()
-        strip.fade(
+        result = strip.fade(
             color1={"r": int(request.startColor.r), "g": int(request.startColor.g), "b": int(request.startColor.b)},
             color2={"r": int(request.endColor.r), "g": int(request.endColor.g), "b": int(request.endColor.b)},
             intensity1=request.startIntensity,
             intensity2=request.endIntensity,
-            duration_ms=request.duration
+            duration_ms=int(request.duration)
         )
-        return service_pb2.FadeResponse(result=True)
+        return service_pb2.FadeResponse(result=result)
+
+    def Rainbow(self, request, context):
+        print("Perform Rainbow", request, context, flush=True)
+        print("Cycles", request.cycles, flush=True)
+        strip.clear()
+        strip.rainbow(cycles=request.cycles)
+        return service_pb2.RainbowResponse(result=True)
 
     def Clear(self, request, context):
         print("Perform Clear", request, context, flush=True)

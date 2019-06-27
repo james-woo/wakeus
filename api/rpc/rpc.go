@@ -2,12 +2,13 @@ package rpc
 
 import (
 	"context"
+	"github.com/james-woo/wakeus/api/models"
 	"google.golang.org/grpc"
 	"log"
 	"os"
 )
 
-var PerformBasic = func(ctx context.Context, color Color, intensity int32) {
+var PerformBasic = func(ctx context.Context, color models.Color, intensity float64) (bool, error) {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -15,11 +16,15 @@ var PerformBasic = func(ctx context.Context, color Color, intensity int32) {
 		}
 	}()
 	client := NewHardwareCommandClient(conn)
-	_, err := client.Basic(
+	response, err := client.Basic(
 		ctx,
 		&BasicRequest{
-			Color: &color,
-			Intensity: intensity,
+			Color: &Color{
+				R: int32(color.R),
+				G: int32(color.G),
+				B: int32(color.B),
+			},
+			Intensity: float32(intensity),
 		},
 	)
 	if err == nil {
@@ -27,9 +32,10 @@ var PerformBasic = func(ctx context.Context, color Color, intensity int32) {
 	} else {
 		log.Printf("Basic error: %s\n", err)
 	}
+	return response.Result, err
 }
 
-var PerformFade = func(ctx context.Context, startColor Color, endColor Color, startIntensity int32, endIntensity int32, duration int32) {
+var PerformFade = func(ctx context.Context, startColor models.Color, endColor models.Color, startIntensity float64, endIntensity float64, duration int) (bool, error) {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -37,14 +43,22 @@ var PerformFade = func(ctx context.Context, startColor Color, endColor Color, st
 		}
 	}()
 	client := NewHardwareCommandClient(conn)
-	_, err := client.Fade(
+	response, err := client.Fade(
 		ctx,
 		&FadeRequest{
-			StartColor: &startColor,
-			EndColor: &endColor,
-			StartIntensity: startIntensity,
-			EndIntensity: endIntensity,
-			Duration: duration,
+			StartColor: &Color{
+				R: int32(startColor.R),
+				G: int32(startColor.G),
+				B: int32(startColor.B),
+			},
+			EndColor: &Color{
+				R: int32(endColor.R),
+				G: int32(endColor.G),
+				B: int32(endColor.B),
+			},
+			StartIntensity: float32(startIntensity),
+			EndIntensity: float32(endIntensity),
+			Duration: int32(duration),
 		},
 	)
 	if err == nil {
@@ -52,9 +66,10 @@ var PerformFade = func(ctx context.Context, startColor Color, endColor Color, st
 	} else {
 		log.Printf("Fade error: %s\n", err)
 	}
+	return response.Result, err
 }
 
-var PerformClear = func(ctx context.Context) {
+var PerformRainbow = func(ctx context.Context, cycles int) (bool, error) {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -62,15 +77,38 @@ var PerformClear = func(ctx context.Context) {
 		}
 	}()
 	client := NewHardwareCommandClient(conn)
-	_, err := client.Clear(ctx, &ClearRequest{})
+	response, err := client.Rainbow(
+		ctx,
+		&RainbowRequest{
+			Cycles: int32(cycles),
+		},
+	)
+	if err == nil {
+		log.Printf("Successfully performed rainbow\n")
+	} else {
+		log.Printf("Rainbow error: %s\n", err)
+	}
+	return response.Result, err
+}
+
+var PerformClear = func(ctx context.Context) (bool, error) {
+	conn := createServiceConnection()
+	defer func() {
+		if err := conn.Close(); err != nil {
+			log.Printf("%s\n", err)
+		}
+	}()
+	client := NewHardwareCommandClient(conn)
+	response, err := client.Clear(ctx, &ClearRequest{})
 	if err == nil {
 		log.Printf("Successfully performed clear\n")
 	} else {
 		log.Printf("Clear error: %s\n", err)
 	}
+	return response.Result, err
 }
 
-var PerformTest = func(ctx context.Context) {
+var PerformTest = func(ctx context.Context) (bool, error) {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -78,12 +116,13 @@ var PerformTest = func(ctx context.Context) {
 		}
 	}()
 	client := NewHardwareCommandClient(conn)
-	_, err := client.Test(ctx, &TestRequest{})
+	response, err := client.Test(ctx, &TestRequest{})
 	if err == nil {
 		log.Printf("Successfully performed test\n")
 	} else {
 		log.Printf("Test error: %s\n", err)
 	}
+	return response.Result, err
 }
 
 func createServiceConnection() *grpc.ClientConn {

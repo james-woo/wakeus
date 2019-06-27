@@ -2,8 +2,8 @@
 
 A homemade wake up light designed to emulate the sunrise. The project contains three parts:
 - Hardware server (Raspberry Pi Zero W + WS2812B LED strip + Python RPC server)
-- Server (Golang API server + Golang RPC Client)
-- Android (Client app + Kotlin RPC Client)
+- Server (Golang REST API server + Golang RPC Client)
+- Client (Simple React app)
 
 ## Table of contents
 1. [Getting Started](#getting-started)
@@ -13,7 +13,7 @@ A homemade wake up light designed to emulate the sunrise. The project contains t
 
 ## Getting Started
 1. Make sure you have set up the hardware [components](#components)
-1. Make sure you have set the [pi](#raspberry-pi-zero-w-headless-setup)
+1. Make sure you have set up the [pi](#raspberry-pi-zero-w-headless-setup)
 1. Run
     ```bash
    # clone this repo
@@ -131,36 +131,35 @@ The LED strip, Raspberry Pi Zero W, and a mobile device. Both the Pi and mobile 
 hardware via RPC to perform any action the LED strip should perform. The mobile device can communicate directly with the
 Wakeus server to perform basic CRUD operations for [Tasks](#task-api).
 
+**gRPC codegen**
+- Go: `protoc --proto_path=proto --proto_path=vendor --go_out=plugins=grpc:api/rpc service.proto`
+- Python: `python -m grpc_tools.protoc --proto_path=proto --python_out=plugins=grpc:hardware --grpc_python_out=./hardware service.proto`
+
+**Database connection**
+- `docker exec --tty --interactive wakeus_database_1 psql -h localhost -U rpi -d wakeus`
+
 ### Hardware Server
 The hardware server's job is to recieve any remote procedure calls (RPC's) and perform any hardware related actions.
 
-#### RPC Action API
-Files generated using these commands:
-
-- Go: `protoc --proto_path=proto --proto_path=vendor --go_out=plugins=grpc:server/rpc service.proto`
-- Python: `python -m grpc_tools.protoc --proto_path=proto --python_out=plugins=grpc:hardware --grpc_python_out=./hardware service.proto`
-
 **Fade**
 
-| Name              | Type   | Description                                    |
-|-------------------|--------|------------------------------------------------|
-| `start_color`     | `hash` | The red, green, blue values ranging from 0-255 |
-| `end_color`       | `hash` | The red, green, blue values ranging from 0-255 |
-| `start_intensity` | `int`  | The intensity of the LEDs ranging from 0-255   |
-| `end_intensity`   | `int`  | The intensity of the LEDs ranging from 0-255   |
-| `duration`        | `int`  | The duration of the fade operation. The fade will start with the `start_color`, `start_intensity` and end with the `end_color`, `end_intensity` |
+| Name              | Type    | Description                                    |
+|-------------------|---------|------------------------------------------------|
+| `start_color`     | `hash`  | The red, green, blue values ranging from 0-255 |
+| `end_color`       | `hash`  | The red, green, blue values ranging from 0-255 |
+| `start_intensity` | `float` | The intensity of the LEDs ranging from 0-1     |
+| `end_intensity`   | `float` | The intensity of the LEDs ranging from 0-1     |
+| `duration`        | `int`   | The duration of the fade operation. The fade will start with the `start_color`, `start_intensity` and end with the `end_color`, `end_intensity` |
 
 **Basic**
 
-| Name        | Type   | Description                                    |
-|-------------|--------|------------------------------------------------|
-| `color`     | `hash` | The red, green, blue values ranging from 0-255 |
-| `intensity` | `int`  | The intensity of the LEDs ranging from 0-255   |
+| Name        | Type    | Description                                    |
+|-------------|---------|------------------------------------------------|
+| `color`     | `hash`  | The red, green, blue values ranging from 0-255 |
+| `intensity` | `float` | The intensity of the LEDs ranging from 0-1     |
 
 ### Wakeus API
 The primary purpose of this server is to provide a RESTful API around tasks created by the client.
-
-#### Task API
 The task API allows you to list, view, edit, and create tasks. 
 
 `POST /task`
@@ -326,9 +325,14 @@ Response
 Status: 204 No Content
 ```
 
-### Wakeus App
+### Wakeus Client
 
-The primary purpose of the app is to provide the user the ability to set alarms, set tasks, or manual drive of the
+The primary purpose of the client is to provide the user the ability to set alarms, set tasks, or manual drive of the
 hardware.
 
 #### Features
+
+- Basic: set the color and intensity
+- Fade: fade from one color to another with a duration
+- Rainbow: cycle through rainbow colors
+- Clear: turn off LEDs

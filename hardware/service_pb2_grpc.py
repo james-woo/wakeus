@@ -24,6 +24,11 @@ class HardwareCommandStub(object):
         request_serializer=service__pb2.FadeRequest.SerializeToString,
         response_deserializer=service__pb2.FadeResponse.FromString,
         )
+    self.Rainbow = channel.unary_unary(
+        '/rpc.HardwareCommand/Rainbow',
+        request_serializer=service__pb2.RainbowRequest.SerializeToString,
+        response_deserializer=service__pb2.RainbowResponse.FromString,
+        )
     self.Clear = channel.unary_unary(
         '/rpc.HardwareCommand/Clear',
         request_serializer=service__pb2.ClearRequest.SerializeToString,
@@ -48,6 +53,13 @@ class HardwareCommandServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def Fade(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def Rainbow(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -80,6 +92,11 @@ def add_HardwareCommandServicer_to_server(servicer, server):
           servicer.Fade,
           request_deserializer=service__pb2.FadeRequest.FromString,
           response_serializer=service__pb2.FadeResponse.SerializeToString,
+      ),
+      'Rainbow': grpc.unary_unary_rpc_method_handler(
+          servicer.Rainbow,
+          request_deserializer=service__pb2.RainbowRequest.FromString,
+          response_serializer=service__pb2.RainbowResponse.SerializeToString,
       ),
       'Clear': grpc.unary_unary_rpc_method_handler(
           servicer.Clear,

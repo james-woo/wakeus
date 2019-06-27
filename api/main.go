@@ -3,11 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/james-woo/wakeus/api/app"
 	"github.com/james-woo/wakeus/api/controllers"
 	"github.com/james-woo/wakeus/api/jobs"
 	"github.com/james-woo/wakeus/api/rpc"
+	"log"
 	"net/http"
 	"os"
 )
@@ -15,14 +16,18 @@ import (
 // env GOOS=linux GOARCH=arm GOARM=5 go build
 func main() {
 	router := mux.NewRouter()
-	router.Use(app.JwtAuthentication) // Attach JWT auth middleware
-
 	// Tasks
 	router.HandleFunc("/api/task", controllers.CreateTask).Methods("POST")
 	router.HandleFunc("/api/tasks", controllers.GetTasks).Methods("GET")
 	router.HandleFunc("/api/tasks/{task_id:[0-9]+}", controllers.GetTask).Methods("GET")
 	router.HandleFunc("/api/tasks/{task_id:[0-9]+}", controllers.UpdateTask).Methods("PATCH")
 	router.HandleFunc("/api/tasks/{task_id:[0-9]+}", controllers.DeleteTask).Methods("DELETE")
+
+	// Perform
+	router.HandleFunc("/api/command/basic", controllers.Basic).Methods("POST")
+	router.HandleFunc("/api/command/fade", controllers.Fade).Methods("POST")
+	router.HandleFunc("/api/command/rainbow", controllers.Rainbow).Methods("POST")
+	router.HandleFunc("/api/command/clear", controllers.Clear).Methods("POST")
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -31,36 +36,18 @@ func main() {
 
 	// Launch periodic tasks
 	fmt.Printf("Launching tasks\n")
-	jobs.LaunchTasks(context.Background())
+	jobs.LaunchJobs(context.Background())
 
 	//Perform hardware test
 	fmt.Printf("Performing hardware test\n")
-	rpc.PerformTest(context.Background())
-
-	fmt.Printf("Performing hardware basic\n")
-	rpc.PerformBasic(
-		context.Background(),
-		rpc.Color{R: 25, G: 25, B: 25},
-		1,
-	)
-
-	fmt.Printf("Performing hardware fade\n")
-	rpc.PerformFade(
-		context.Background(),
-		rpc.Color{R: 0, G: 0, B: 0},
-		rpc.Color{R: 255, G: 255, B: 255},
-		0,
-		1,
-		5000,
-	)
-
-	fmt.Printf("Performing hardware clear\n")
-	rpc.PerformClear(context.Background())
+	_, _ = rpc.PerformTest(context.Background())
 
 	// Launch app, visit localhost:8000/api
 	fmt.Printf("Running on localhost:%s\n", port)
-	err := http.ListenAndServe(":" + port, router)
-	if err != nil {
-		fmt.Print(err)
-	}
+	handler := handlers.CORS(
+		handlers.AllowedHeaders([]string{"Accept", "Authorization", "Content-Type", "Content-Length", "Accept-Encoding", "X-Requested-With"}),
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}),
+		handlers.AllowedOrigins([]string{"*"}),
+	)
+	log.Fatal(http.ListenAndServe(":" + port, handler(router)))
 }

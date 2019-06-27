@@ -2,11 +2,13 @@ package models
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"time"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/joho/godotenv"
-	"log"
-	"os"
 )
 
 var db *gorm.DB
@@ -45,16 +47,28 @@ func init() {
 	// Seed database with task
 	var task Task
 	db.Debug().FirstOrCreate(&task, Task{
-		Schedule: "0 30 6 ? * MON,TUE,WED,THU,FRI",
-		Type: "fade",
-		Data: `{"start_color":{"r":0,"g":-50,"b":-120},"end_color":{"r":255,"g":130,"b":40},"start_intensity":0,"end_intensity":1,"duration":3600000}`,
+		Schedule: "30 10 ? * MON,TUE,WED,THU,FRI",
+		Type:     "fade",
+		Data:     `{"start_color":{"r":0,"g":-50,"b":-120},"end_color":{"r":255,"g":130,"b":40},"start_intensity":0,"end_intensity":1,"duration":1800000}`,
 	})
-	db.Debug().FirstOrCreate(&task, Task{
-		Schedule: "0 0 8 ? * MON,TUE,WED,THU,FRI",
-		Type: "clear",
+	var task2 Task
+	db.Debug().FirstOrCreate(&task2, Task{
+		Schedule: "0 11 ? * MON,TUE,WED,THU,FRI",
+		Type:     "clear",
+	})
+	var task3 Task
+	db.Debug().FirstOrCreate(&task3, Task{
+		Schedule: "30 11 ? * SAT,SUN",
+		Type:     "fade",
+		Data:     `{"start_color":{"r":0,"g":-50,"b":-120},"end_color":{"r":255,"g":130,"b":40},"start_intensity":0,"end_intensity":1,"duration":1800000}`,
+	})
+	var task4 Task
+	db.Debug().FirstOrCreate(&task4, Task{
+		Schedule: "0 13 ? * SAT,SUN",
+		Type:     "clear",
 	})
 
-	fmt.Printf("Initialized database\n")
+	fmt.Printf("Initialized database %s\n", time.Now())
 }
 
 func GetDB() *gorm.DB {

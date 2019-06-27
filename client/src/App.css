@@ -1,0 +1,73 @@
+body {
+  background-color: #1B1C1D;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.rainbow {
+  background-color: #FF0000;
+  animation: bgColor 10s infinite linear;
+  width: 100%;
+  padding: 1em;
+}
+@keyframes bgColor {
+  11.1% {
+    background-color: #FF0000;
+  }
+  22.2% {
+    background-color: #FFA500;
+  }
+  33.3% {
+    background-color: #FFFF00;
+  }
+  44.4% {
+    background-color: #7FFF00;
+  }
+  55.5% {
+    background-color: #00FFFF;
+  }
+  66.6% {
+    background-color: #0000FF;
+  }
+  77.7% {
+    background-color: #9932CC;
+  }
+  88.8% {
+    background-color: #FF1493;
+  }
+  100% {
+    background-color: #FF0000;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

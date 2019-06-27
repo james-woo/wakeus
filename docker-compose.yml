@@ -40,10 +40,26 @@ services:
       - database
       - hardware
     ports:
-      - 8888:8888
+      - 8000:8000
     expose:
-      - 8888
+      - 8000
     command: ["go", "run", "main.go"]
+
+  client:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    links:
+      - api:api
+    depends_on:
+      - api
+      - hardware
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    command: ["yarn", "start"]
 
 volumes:
   postgresql_data:
