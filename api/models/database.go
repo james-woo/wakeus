@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -46,25 +47,41 @@ func init() {
 	// Seed database with task
 	var task Task
 	db.Debug().FirstOrCreate(&task, Task{
-		Schedule: "0 30 6 ? * MON,TUE,WED,THU,FRI",
+		Schedule: "0 30 10 ? * MON,TUE,WED,THU,FRI",
 		Type:     "fade",
 		Data:     `{"start_color":{"r":0,"g":-50,"b":-120},"end_color":{"r":255,"g":130,"b":40},"start_intensity":0,"end_intensity":1,"duration":3600000}`,
 	})
-	db.Debug().FirstOrCreate(&task, Task{
-		Schedule: "0 0 8 ? * MON,TUE,WED,THU,FRI",
+	var task2 Task
+	db.Debug().FirstOrCreate(&task2, Task{
+		Schedule: "0 0 12 ? * MON,TUE,WED,THU,FRI",
 		Type:     "clear",
 	})
-	db.Debug().FirstOrCreate(&task, Task{
-		Schedule: "0 30 7 ? * SAT,SUN",
+	var task3 Task
+	db.Debug().FirstOrCreate(&task3, Task{
+		Schedule: "0 30 11 ? * SAT,SUN",
 		Type:     "fade",
 		Data:     `{"start_color":{"r":0,"g":-50,"b":-120},"end_color":{"r":255,"g":130,"b":40},"start_intensity":0,"end_intensity":1,"duration":3600000}`,
 	})
-	db.Debug().FirstOrCreate(&task, Task{
-		Schedule: "0 0 8 ? * SAT,SUN",
+	var task4 Task
+	db.Debug().FirstOrCreate(&task4, Task{
+		Schedule: "0 0 13 ? * SAT,SUN",
 		Type:     "clear",
 	})
 
-	fmt.Printf("Initialized database\n")
+	// Test
+	var task5 Task
+	db.Debug().FirstOrCreate(&task5, Task{
+		Schedule: "0 40 22 ? * *",
+		Type:     "fade",
+		Data:     `{"start_color":{"r":0,"g":-50,"b":-120},"end_color":{"r":255,"g":130,"b":40},"start_intensity":0,"end_intensity":1,"duration":36000}`,
+	})
+	var task6 Task
+	db.Debug().FirstOrCreate(&task6, Task{
+		Schedule: "0 42 22 ? * *",
+		Type:     "clear",
+	})
+
+	fmt.Printf("Initialized database %s\n", time.Now())
 }
 
 func GetDB() *gorm.DB {
