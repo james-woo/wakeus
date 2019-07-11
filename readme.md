@@ -131,14 +131,16 @@ The LED strip, Raspberry Pi Zero W, and a mobile device. Both the Pi and mobile 
 hardware via RPC to perform any action the LED strip should perform. The mobile device can communicate directly with the
 Wakeus server to perform basic CRUD operations for [Tasks](#task-api).
 
-### Hardware Server
-The hardware server's job is to recieve any remote procedure calls (RPC's) and perform any hardware related actions.
-
-#### RPC Action API
-Files generated using these commands:
-
+**gRPC codegen**
 - Go: `protoc --proto_path=proto --proto_path=vendor --go_out=plugins=grpc:server/rpc service.proto`
 - Python: `python -m grpc_tools.protoc --proto_path=proto --python_out=plugins=grpc:hardware --grpc_python_out=./hardware service.proto`
+- Javascript: `protoc proto/service.proto --js_out=import_style=commonjs:client/src --grpc-web_out=import_style=commonjs,mode=grpcwebtext:client/src`
+
+**Database connection**
+- `docker exec --tty --interactive wakeus_database_1 psql -h localhost -U rpi -d wakeus`
+
+### Hardware Server
+The hardware server's job is to recieve any remote procedure calls (RPC's) and perform any hardware related actions.
 
 **Fade**
 
@@ -159,8 +161,6 @@ Files generated using these commands:
 
 ### Wakeus API
 The primary purpose of this server is to provide a RESTful API around tasks created by the client.
-
-#### Task API
 The task API allows you to list, view, edit, and create tasks. 
 
 `POST /task`

@@ -71,13 +71,13 @@ func init() {
 	// Test
 	var task5 Task
 	db.Debug().FirstOrCreate(&task5, Task{
-		Schedule: "0 40 22 ? * *",
+		Schedule: "0 50 22 ? * *",
 		Type:     "fade",
 		Data:     `{"start_color":{"r":0,"g":-50,"b":-120},"end_color":{"r":255,"g":130,"b":40},"start_intensity":0,"end_intensity":1,"duration":36000}`,
 	})
 	var task6 Task
 	db.Debug().FirstOrCreate(&task6, Task{
-		Schedule: "0 42 22 ? * *",
+		Schedule: "0 52 22 ? * *",
 		Type:     "clear",
 	})
 
