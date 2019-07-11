@@ -16,14 +16,15 @@ var LaunchTasks = func(ctx context.Context) {
 	tasks := models.GetTasks()
 
 	for _, task := range tasks {
-		fmt.Printf("Adding task: %s %s\n", task.Type, task.Data)
+		t := task
+		fmt.Printf("Adding task: %s %s\n", t.Type, t.Data)
 		switch task.Type {
 		case "basic":
 			{
-				err := c.AddFunc(task.Schedule, func() {
-					fmt.Printf("Performing hardware basic with data: %s\n", task.Data)
+				err := c.AddFunc(t.Schedule, func() {
+					fmt.Printf("Performing hardware basic with data: %s, schedule: %s\n", t.Data, t.Schedule)
 					var basic= models.Basic{}
-					if err := json.Unmarshal([]byte(task.Data), &basic); err != nil {
+					if err := json.Unmarshal([]byte(t.Data), &basic); err != nil {
 						log.Fatal(err)
 					}
 					rpc.PerformBasic(
@@ -38,10 +39,10 @@ var LaunchTasks = func(ctx context.Context) {
 			}
 		case "fade":
 			{
-				err := c.AddFunc(task.Schedule, func() {
-					fmt.Printf("Performing hardware fade with data: %s\n", task.Data)
+				err := c.AddFunc(t.Schedule, func() {
+					fmt.Printf("Performing hardware fade with data: %s, schedule: %s\n", t.Data, t.Schedule)
 					var fade= models.Fade{}
-					if err := json.Unmarshal([]byte(task.Data), &fade); err != nil {
+					if err := json.Unmarshal([]byte(t.Data), &fade); err != nil {
 						log.Fatal(err)
 					}
 					rpc.PerformFade(
@@ -59,7 +60,7 @@ var LaunchTasks = func(ctx context.Context) {
 			}
 		case "clear":
 			{
-				err := c.AddFunc(task.Schedule, func() {
+				err := c.AddFunc(t.Schedule, func() {
 					fmt.Printf("Performing hardware clear\n")
 					rpc.PerformClear(ctx)
 				})
