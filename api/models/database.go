@@ -68,19 +68,6 @@ func init() {
 		Type:     "clear",
 	})
 
-	// Test
-	var task5 Task
-	db.Debug().FirstOrCreate(&task5, Task{
-		Schedule: "0 33 23 ? * *",
-		Type:     "fade",
-		Data:     `{"start_color":{"r":0,"g":-50,"b":-120},"end_color":{"r":255,"g":130,"b":40},"start_intensity":0,"end_intensity":1,"duration":36000}`,
-	})
-	var task6 Task
-	db.Debug().FirstOrCreate(&task6, Task{
-		Schedule: "0 35 23 ? * *",
-		Type:     "clear",
-	})
-
 	fmt.Printf("Initialized database %s\n", time.Now())
 }
 
