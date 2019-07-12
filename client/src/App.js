@@ -1,31 +1,82 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-const { HardwareServiceClient } = require('./proto/service_grpc_web_pb');
-const { BasicRequest, BasicResponse, FadeRequest, FadeResponse } = require('./proto/service_pb');
-
-var client = new HardwareServiceClient('localhost:50051', null, null);
-
-var callBasic = (color, intensity) => {
-  const request = new BasicRequest();
-  request.setColor(color);
-  request.setIntensity(intensity);
-  client.basic(request, {}, (err, response) => {
-    if (response == null) {
-      console.log(err);
-    } else {
-      console.log(response)
-    }
+let basic = () => {
+  let request = fetch('http://localhost:8000/api/command/basic', {
+    method: 'POST',
+    cors: 'enabled',
+    headers: {
+      'Access-Control-Request-Headers': 'accepts, content-type',
+      'Access-Control-Request-Method': 'POST',
+      'Access-Control-Allow-Origin': '*',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      color: {
+        r: 100,
+        g: 100,
+        b: 100
+      },
+      intensity: 1,
+    })
   });
-}
+  request.then(
+    (response) => {
+      if (response.ok) {
+        console.log("Basic success: " + response);
+      } else {
+        console.log("Basic error");
+      }
+  },
+    (reason) => {
+      console.log("Basic error: ", reason);
+  });
+};
+
+let fade = () => {
+  fetch('http://localhost:8000/api/command/fade', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      start_color: {
+        r: 100,
+        g: 100,
+        b: 100
+      },
+      end_color: {
+        r: 200,
+        g: 100,
+        b: 100
+      },
+      start_intensity: 0,
+      end_intensity: 1,
+      duration: 6000
+    })
+  })
+};
+
+let clear = () => {
+  fetch('http://localhost:8000/api/command/clear', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+};
 
 function App() {
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <button style={{padding:10}} onClick={callBasic({'r': 255, 'g': 255, 'b':255}, 1)}>Basic</button>
+        <button style={{padding:10}} onClick={basic}>Basic</button>
+        <button style={{padding:10}} onClick={fade}>Fade</button>
+        <button style={{padding:10}} onClick={clear}>Clear</button>
       </header>
     </div>
   );

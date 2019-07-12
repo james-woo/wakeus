@@ -11,6 +11,7 @@ import (
 )
 
 var Basic = func(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	var basic = models.Basic{}
 	err := json.NewDecoder(r.Body).Decode(basic)
 	if err != nil {
@@ -24,9 +25,12 @@ var Basic = func(w http.ResponseWriter, r *http.Request) {
 		rpc.Color{R: basic.Color.R, G: basic.Color.G, B: basic.Color.B},
 		basic.Intensity,
 	)
+	resp := utils.Message(true, "success")
+	utils.Respond(w, resp)
 }
 
 var Fade = func(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	fade := &models.Fade{}
 	err := json.NewDecoder(r.Body).Decode(fade)
 	if err != nil {
@@ -43,9 +47,14 @@ var Fade = func(w http.ResponseWriter, r *http.Request) {
 		fade.EndIntensity,
 		fade.Duration,
 	)
+	resp := utils.Message(true, "success")
+	utils.Respond(w, resp)
 }
 
 var Clear = func(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	fmt.Printf("%s: Performing hardware clear\n", time.Now())
 	rpc.PerformClear(r.Context())
+	resp := utils.Message(true, "success")
+	utils.Respond(w, resp)
 }
