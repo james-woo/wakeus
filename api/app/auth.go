@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/james-woo/wakeus/api/models"
 	"github.com/james-woo/wakeus/api/utils"
@@ -29,15 +30,17 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 			tk := &models.Token{}
 
 			token, err := jwt.ParseWithClaims(tokenPart, tk, func(token *jwt.Token) (interface{}, error) {
-				return []byte(os.Getenv("token_password")), nil
+				return []byte(os.Getenv("token")), nil
 			})
 
 			if err != nil {
+				fmt.Printf("%s %s\n", token, tokenHeader)
 				respondWithError(w, false, "Malformed auth token")
 				return
 			}
 
 			if !token.Valid {
+				fmt.Printf("%s %s\n", token, tokenHeader)
 				respondWithError(w, false, "Token is not valid")
 				return
 			}

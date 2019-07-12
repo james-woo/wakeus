@@ -24,6 +24,11 @@ func main() {
 	router.HandleFunc("/api/tasks/{task_id:[0-9]+}", controllers.UpdateTask).Methods("PATCH")
 	router.HandleFunc("/api/tasks/{task_id:[0-9]+}", controllers.DeleteTask).Methods("DELETE")
 
+	// Perform
+	router.HandleFunc("/api/command/basic", controllers.Basic).Methods("POST")
+	router.HandleFunc("/api/command/fade", controllers.Fade).Methods("POST")
+	router.HandleFunc("/api/command/clear", controllers.Clear).Methods("POST")
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000"
@@ -31,7 +36,7 @@ func main() {
 
 	// Launch periodic tasks
 	fmt.Printf("Launching tasks\n")
-	jobs.LaunchTasks(context.Background())
+	jobs.LaunchJobs(context.Background())
 
 	//Perform hardware test
 	fmt.Printf("Performing hardware test\n")

@@ -1,7 +1,6 @@
 package models
 
 import (
-	"github.com/james-woo/wakeus/api/utils"
 	"github.com/jinzhu/gorm"
 	"log"
 )
@@ -13,18 +12,9 @@ type Task struct {
 	Data string `json:"data"`
 }
 
-func (task *Task) Create() map[string]interface{} {
+func (task *Task) Create() *Task {
 	GetDB().Create(task)
-	resp := utils.Message(true, "success")
-	resp["task"] = task
-	return resp
-}
-
-func (task *Task) Delete() map[string]interface{} {
-	GetDB().Delete(task)
-	resp := utils.Message(true, "success")
-	resp["task"] = task
-	return resp
+	return task
 }
 
 func GetTask(id uint) *Task {
@@ -45,4 +35,14 @@ func GetTasks() []*Task {
 		return nil
 	}
 	return tasks
+}
+
+func (task *Task) Update(taskId uint, updated Task) *Task {
+	GetDB().Model(task).Updates(updated)
+	return task
+}
+
+func (task *Task) Delete() *Task {
+	GetDB().Delete(task)
+	return task
 }

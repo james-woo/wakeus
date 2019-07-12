@@ -15,8 +15,8 @@ RUN go get -u google.golang.org/grpc \
  && go get -u github.com/gorilla/mux \
  && go get -u github.com/lib/pq \
  && go get -u github.com/lib/pq/hstore \
- && go get -u github.com/robfig/cron \
- && go get -u github.com/joho/godotenv
+ && go get -u github.com/joho/godotenv \
+ && go get -u "gopkg.in/robfig/cron.v3"
 
 COPY . /app/src/github.com/james-woo/wakeus
 WORKDIR /app/src/github.com/james-woo/wakeus/api
