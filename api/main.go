@@ -40,7 +40,7 @@ func main() {
 
 	//Perform hardware test
 	fmt.Printf("Performing hardware test\n")
-	rpc.PerformTest(context.Background())
+	_, _ = rpc.PerformTest(context.Background())
 
 	// Launch app, visit localhost:8000/api
 	fmt.Printf("Running on localhost:%s\n", port)

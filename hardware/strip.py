@@ -28,7 +28,7 @@ class Strip:
         """Solid color across display"""
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColor(i, Color(color['r'], color['g'], color['b']))
-        self.strip.setBrightness(int(255 * intensity))
+        self.strip.setBrightness(min(255, int(255 * intensity)))
         self.strip.show()
         time.sleep(wait_ms / 1000.0)
 
@@ -51,7 +51,8 @@ class Strip:
                     green if green > 0 else 0,
                     blue if blue > 0 else 0
                 )
-            brightness = int(255 * (intensity1 + (intensity2 - intensity1) * step))
+            brightness_step = intensity1 + ((intensity2 - intensity1) * step)
+            brightness = min(255, int(255 * brightness_step))
             self.strip.setBrightness(brightness)
             self.strip.show()
             time.sleep(t/1000.0)
