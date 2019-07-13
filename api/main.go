@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/james-woo/wakeus/api/controllers"
 	"github.com/james-woo/wakeus/api/jobs"
+	"github.com/james-woo/wakeus/api/models"
 	"github.com/james-woo/wakeus/api/rpc"
 	"log"
 	"net/http"
@@ -24,7 +25,7 @@ func main() {
 	router.HandleFunc("/api/tasks/{task_id:[0-9]+}", controllers.DeleteTask).Methods("DELETE")
 
 	// Perform
-	router.HandleFunc("/api/command/basic", controllers.Basic).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/command/basic", controllers.Basic).Methods("POST")
 	router.HandleFunc("/api/command/fade", controllers.Fade).Methods("POST")
 	router.HandleFunc("/api/command/clear", controllers.Clear).Methods("POST")
 
@@ -44,15 +45,15 @@ func main() {
 	fmt.Printf("Performing hardware basic\n")
 	rpc.PerformBasic(
 		context.Background(),
-		rpc.Color{R: 25, G: 25, B: 25},
+		models.Color{R: 25, G: 25, B: 25},
 		1,
 	)
 
 	fmt.Printf("Performing hardware fade\n")
 	rpc.PerformFade(
 		context.Background(),
-		rpc.Color{R: 0, G: 0, B: 0},
-		rpc.Color{R: 255, G: 255, B: 255},
+		models.Color{R: 0, G: 0, B: 0},
+		models.Color{R: 255, G: 255, B: 255},
 		0,
 		1,
 		5000,

@@ -2,12 +2,13 @@ package rpc
 
 import (
 	"context"
+	"github.com/james-woo/wakeus/api/models"
 	"google.golang.org/grpc"
 	"log"
 	"os"
 )
 
-var PerformBasic = func(ctx context.Context, color Color, intensity int32) {
+var PerformBasic = func(ctx context.Context, color models.Color, intensity int) {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -18,8 +19,12 @@ var PerformBasic = func(ctx context.Context, color Color, intensity int32) {
 	_, err := client.Basic(
 		ctx,
 		&BasicRequest{
-			Color: &color,
-			Intensity: intensity,
+			Color: &Color{
+				R: int32(color.R),
+				G: int32(color.G),
+				B: int32(color.B),
+			},
+			Intensity: int32(intensity),
 		},
 	)
 	if err == nil {
@@ -29,7 +34,7 @@ var PerformBasic = func(ctx context.Context, color Color, intensity int32) {
 	}
 }
 
-var PerformFade = func(ctx context.Context, startColor Color, endColor Color, startIntensity int32, endIntensity int32, duration int32) {
+var PerformFade = func(ctx context.Context, startColor models.Color, endColor models.Color, startIntensity int, endIntensity int, duration int) {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -40,11 +45,19 @@ var PerformFade = func(ctx context.Context, startColor Color, endColor Color, st
 	_, err := client.Fade(
 		ctx,
 		&FadeRequest{
-			StartColor: &startColor,
-			EndColor: &endColor,
-			StartIntensity: startIntensity,
-			EndIntensity: endIntensity,
-			Duration: duration,
+			StartColor: &Color{
+				R: int32(startColor.R),
+				G: int32(startColor.G),
+				B: int32(startColor.B),
+			},
+			EndColor: &Color{
+				R: int32(endColor.R),
+				G: int32(endColor.G),
+				B: int32(endColor.B),
+			},
+			StartIntensity: int32(startIntensity),
+			EndIntensity: int32(endIntensity),
+			Duration: int32(duration),
 		},
 	)
 	if err == nil {

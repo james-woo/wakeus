@@ -6,9 +6,6 @@ let basic = () => {
     method: 'POST',
     cors: 'enabled',
     headers: {
-      'Access-Control-Request-Headers': 'accepts, content-type',
-      'Access-Control-Request-Method': 'POST',
-      'Access-Control-Allow-Origin': '*',
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
@@ -24,7 +21,7 @@ let basic = () => {
   request.then(
     (response) => {
       if (response.ok) {
-        console.log("Basic success: " + response);
+        console.log("Basic success: " + response.statusText);
       } else {
         console.log("Basic error");
       }

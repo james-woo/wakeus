@@ -37,7 +37,7 @@ var AddJob = func(ctx context.Context, task *models.Task) {
 				}
 				rpc.PerformBasic(
 					ctx,
-					rpc.Color{R: basic.Color.R, G: basic.Color.G, B: basic.Color.B},
+					models.Color{R: basic.Color.R, G: basic.Color.G, B: basic.Color.B},
 					basic.Intensity,
 				)
 			})
@@ -56,8 +56,8 @@ var AddJob = func(ctx context.Context, task *models.Task) {
 				}
 				rpc.PerformFade(
 					ctx,
-					rpc.Color{R: fade.StartColor.R, G: fade.StartColor.G, B: fade.StartColor.B},
-					rpc.Color{R: fade.EndColor.R, G: fade.EndColor.G, B: fade.EndColor.B},
+					models.Color{R: fade.StartColor.R, G: fade.StartColor.G, B: fade.StartColor.B},
+					models.Color{R: fade.EndColor.R, G: fade.EndColor.G, B: fade.EndColor.B},
 					fade.StartIntensity,
 					fade.EndIntensity,
 					fade.Duration,
