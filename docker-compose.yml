@@ -52,7 +52,6 @@ services:
       dockerfile: Dockerfile.client
     links:
       - api:api
-      - hardware:hardware
     depends_on:
       - api
       - hardware
