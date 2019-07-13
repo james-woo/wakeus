@@ -111,14 +111,13 @@ var PerformTest = func(ctx context.Context) (bool, error) {
 		}
 	}()
 	client := NewHardwareCommandClient(conn)
-	_, err := client.Test(ctx, &TestRequest{})
+	response, err := client.Test(ctx, &TestRequest{})
 	if err == nil {
 		log.Printf("Successfully performed test\n")
-		return true
 	} else {
 		log.Printf("Test error: %s\n", err)
-		return false
 	}
+	return response.Result, err
 }
 
 func createServiceConnection() *grpc.ClientConn {
