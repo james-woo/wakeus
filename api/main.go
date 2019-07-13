@@ -39,16 +39,6 @@ func main() {
 	jobs.LaunchJobs(context.Background())
 
 	//Perform hardware test
-	fmt.Printf("Performing hardware test\n")
-	rpc.PerformTest(context.Background())
-
-	fmt.Printf("Performing hardware basic\n")
-	rpc.PerformBasic(
-		context.Background(),
-		models.Color{R: 25, G: 25, B: 25},
-		1,
-	)
-
 	fmt.Printf("Performing hardware fade\n")
 	rpc.PerformFade(
 		context.Background(),
@@ -56,7 +46,7 @@ func main() {
 		models.Color{R: 255, G: 255, B: 255},
 		0,
 		1,
-		5000,
+		3000,
 	)
 
 	fmt.Printf("Performing hardware clear\n")
