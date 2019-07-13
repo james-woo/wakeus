@@ -5,7 +5,7 @@ export class BasicForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      color: '#fff'
+      color: '#ffffff'
     };
 
     this.handleChange = this.handleChange.bind(this);

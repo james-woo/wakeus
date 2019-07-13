@@ -19,13 +19,18 @@ var Basic = func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Printf("%s: Performing hardware basic with data: %+v\n", time.Now(), basic)
-	rpc.PerformBasic(
+	result, err := rpc.PerformBasic(
 		r.Context(),
 		models.Color{R: basic.Color.R, G: basic.Color.G, B: basic.Color.B},
 		basic.Intensity,
 	)
-	resp := utils.Message(true, "success")
-	utils.Respond(w, resp)
+	if result {
+		resp := utils.Message(true, "success")
+		utils.Respond(w, resp)
+	} else {
+		message := fmt.Sprintf("Failed to perform basic with request: %+v. Error: %s", basic, err)
+		utils.Respond(w, utils.Message(false, message))
+	}
 }
 
 var Fade = func(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +42,7 @@ var Fade = func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Printf("%s: Performing hardware fade with data: %+v\n", time.Now(), fade)
-	rpc.PerformFade(
+	result, err := rpc.PerformFade(
 		r.Context(),
 		models.Color{R: fade.StartColor.R, G: fade.StartColor.G, B: fade.StartColor.B},
 		models.Color{R: fade.EndColor.R, G: fade.EndColor.G, B: fade.EndColor.B},
@@ -45,20 +50,35 @@ var Fade = func(w http.ResponseWriter, r *http.Request) {
 		fade.EndIntensity,
 		fade.Duration,
 	)
-	resp := utils.Message(true, "success")
-	utils.Respond(w, resp)
+	if result {
+		resp := utils.Message(true, "success")
+		utils.Respond(w, resp)
+	} else {
+		message := fmt.Sprintf("Failed to perform fade with request: %+v. Error: %s", fade, err)
+		utils.Respond(w, utils.Message(false, message))
+	}
 }
 
 var Rainbow = func(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("%s: Performing hardware rainbow\n", time.Now())
-	rpc.PerformRainbow(r.Context())
-	resp := utils.Message(true, "success")
-	utils.Respond(w, resp)
+	result, err := rpc.PerformRainbow(r.Context())
+	if result {
+		resp := utils.Message(true, "success")
+		utils.Respond(w, resp)
+	} else {
+		message := fmt.Sprintf("Failed to perform rainbow. Error: %s", err)
+		utils.Respond(w, utils.Message(false, message))
+	}
 }
 
 var Clear = func(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("%s: Performing hardware clear\n", time.Now())
-	rpc.PerformClear(r.Context())
-	resp := utils.Message(true, "success")
-	utils.Respond(w, resp)
+	result, err := rpc.PerformClear(r.Context())
+	if result {
+		resp := utils.Message(true, "success")
+		utils.Respond(w, resp)
+	} else {
+		message := fmt.Sprintf("Failed to perform clear. Error: %s", err)
+		utils.Respond(w, utils.Message(false, message))
+	}
 }

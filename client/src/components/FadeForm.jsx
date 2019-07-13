@@ -5,8 +5,8 @@ export class FadeForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      color1: '#fff',
-      color2: '#fff',
+      color1: '#ffffff',
+      color2: '#ffffff',
       duration: 5
     };
 

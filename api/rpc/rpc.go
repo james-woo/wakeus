@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-var PerformBasic = func(ctx context.Context, color models.Color, intensity float32) bool {
+var PerformBasic = func(ctx context.Context, color models.Color, intensity float32) (bool, error) {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -16,7 +16,7 @@ var PerformBasic = func(ctx context.Context, color models.Color, intensity float
 		}
 	}()
 	client := NewHardwareCommandClient(conn)
-	_, err := client.Basic(
+	response, err := client.Basic(
 		ctx,
 		&BasicRequest{
 			Color: &Color{
@@ -29,14 +29,13 @@ var PerformBasic = func(ctx context.Context, color models.Color, intensity float
 	)
 	if err == nil {
 		log.Printf("Successfully performed basic\n")
-		return true
 	} else {
 		log.Printf("Basic error: %s\n", err)
-		return false
 	}
+	return response.Result, err
 }
 
-var PerformFade = func(ctx context.Context, startColor models.Color, endColor models.Color, startIntensity float32, endIntensity float32, duration int) bool {
+var PerformFade = func(ctx context.Context, startColor models.Color, endColor models.Color, startIntensity float32, endIntensity float32, duration int) (bool, error) {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -44,7 +43,7 @@ var PerformFade = func(ctx context.Context, startColor models.Color, endColor mo
 		}
 	}()
 	client := NewHardwareCommandClient(conn)
-	_, err := client.Fade(
+	response, err := client.Fade(
 		ctx,
 		&FadeRequest{
 			StartColor: &Color{
@@ -64,14 +63,13 @@ var PerformFade = func(ctx context.Context, startColor models.Color, endColor mo
 	)
 	if err == nil {
 		log.Printf("Successfully performed fade\n")
-		return true
 	} else {
 		log.Printf("Fade error: %s\n", err)
-		return false
 	}
+	return response.Result, err
 }
 
-var PerformRainbow = func(ctx context.Context) bool {
+var PerformRainbow = func(ctx context.Context) (bool, error) {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -79,17 +77,16 @@ var PerformRainbow = func(ctx context.Context) bool {
 		}
 	}()
 	client := NewHardwareCommandClient(conn)
-	_, err := client.Rainbow(ctx, &RainbowRequest{})
+	response, err := client.Rainbow(ctx, &RainbowRequest{})
 	if err == nil {
 		log.Printf("Successfully performed rainbow\n")
-		return true
 	} else {
 		log.Printf("Rainbow error: %s\n", err)
-		return false
 	}
+	return response.Result, err
 }
 
-var PerformClear = func(ctx context.Context) bool {
+var PerformClear = func(ctx context.Context) (bool, error) {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -97,17 +94,16 @@ var PerformClear = func(ctx context.Context) bool {
 		}
 	}()
 	client := NewHardwareCommandClient(conn)
-	_, err := client.Clear(ctx, &ClearRequest{})
+	response, err := client.Clear(ctx, &ClearRequest{})
 	if err == nil {
 		log.Printf("Successfully performed clear\n")
-		return true
 	} else {
 		log.Printf("Clear error: %s\n", err)
-		return false
 	}
+	return response.Result, err
 }
 
-var PerformTest = func(ctx context.Context) bool {
+var PerformTest = func(ctx context.Context) (bool, error) {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
