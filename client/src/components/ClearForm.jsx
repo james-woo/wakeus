@@ -7,8 +7,8 @@ export class ClearForm extends Component {
   }
 
   perform() {
-    console.log(`Request clear`);
     let host = process.env.API_SERVICE_HOST || "localhost";
+    console.log(`Request clear to host ${host}`);
     fetch(`http://${host}:8000/api/command/clear`, {
       method: 'POST',
       headers: {

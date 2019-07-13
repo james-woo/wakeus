@@ -7,8 +7,8 @@ export class RainbowForm extends Component {
   }
 
   perform() {
-    console.log(`Request rainbow`);
     let host = process.env.API_SERVICE_HOST || "localhost";
+    console.log(`Request rainbow to host ${host}`);
     fetch(`http://${host}:8000/api/command/rainbow`, {
       method: 'POST',
       headers: {

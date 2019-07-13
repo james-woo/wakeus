@@ -51,7 +51,7 @@ services:
       context: .
       dockerfile: Dockerfile.client
     environment:
-      - API_SERVICE_HOST=hardware:50051
+      - API_SERVICE_HOST=192.168.1.52
     links:
       - api:api
     depends_on:

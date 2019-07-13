@@ -37,14 +37,15 @@ export class FadeForm extends Component {
   }
 
   perform() {
+    let host = process.env.API_SERVICE_HOST || "localhost";
     console.log(`Request fade: 
       start_color: ${this.state.color1}, 
       end_color: ${this.state.color2}, 
       start_intensity: ${this.state.color1.a}, 
       end_intensity: ${this.state.color2.a}, 
-      duration: ${this.state.duration}`
+      duration: ${this.state.duration} 
+      to host ${host}`
     );
-    let host = process.env.API_SERVICE_HOST || "localhost";
     fetch(`http://${host}:8000/api/command/fade`, {
       method: 'POST',
       headers: {
