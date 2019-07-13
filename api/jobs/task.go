@@ -18,14 +18,13 @@ var LaunchJobs = func(ctx context.Context) {
 
 	for _, task := range tasks {
 		t := task
-		fmt.Printf("Adding task: %s %s\n", t.Type, t.Data)
 		AddJob(ctx, t)
 	}
 }
 
 var AddJob = func(ctx context.Context, task *models.Task) {
 	c := cron.New()
-	fmt.Printf("Adding task: %s %s\n", task.Type, task.Data)
+	fmt.Printf("%s: Adding task: %s %s %s\n", time.Now(), task.Type, task.Data, task.Schedule)
 	switch task.Type {
 	case "basic":
 		{
@@ -84,6 +83,8 @@ var AddJob = func(ctx context.Context, task *models.Task) {
 }
 
 var DeleteJob = func(taskId uint) {
+	fmt.Printf("%s: Deleting task id: %d, job: %d\n", time.Now(), taskId, TaskJobs[taskId])
 	c := cron.New()
 	c.Remove(TaskJobs[taskId])
+	delete(TaskJobs, taskId)
 }

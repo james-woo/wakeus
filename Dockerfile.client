@@ -10,4 +10,4 @@ RUN yarn
 COPY . /wakeus
 WORKDIR /wakeus/client
 
-CMD ["yarn start | cat"]
+CMD ["yarn start"]
