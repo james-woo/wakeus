@@ -1,4 +1,4 @@
-FROM arm32v6/golang:1.11-alpine
+FROM arm32v7/golang:1.11-alpine
 
 ENV GOPATH=/app
 

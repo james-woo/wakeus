@@ -1,4 +1,4 @@
-FROM arm32v6/node:current-alpine
+FROM arm32v7/node:current-alpine
 
 RUN npm install -g http-server
 
