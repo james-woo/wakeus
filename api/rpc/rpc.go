@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-var PerformBasic = func(ctx context.Context, color models.Color, intensity int) {
+var PerformBasic = func(ctx context.Context, color models.Color, intensity int) bool {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -29,12 +29,14 @@ var PerformBasic = func(ctx context.Context, color models.Color, intensity int) 
 	)
 	if err == nil {
 		log.Printf("Successfully performed basic\n")
+		return true
 	} else {
 		log.Printf("Basic error: %s\n", err)
+		return false
 	}
 }
 
-var PerformFade = func(ctx context.Context, startColor models.Color, endColor models.Color, startIntensity int, endIntensity int, duration int) {
+var PerformFade = func(ctx context.Context, startColor models.Color, endColor models.Color, startIntensity int, endIntensity int, duration int) bool {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -62,12 +64,32 @@ var PerformFade = func(ctx context.Context, startColor models.Color, endColor mo
 	)
 	if err == nil {
 		log.Printf("Successfully performed fade\n")
+		return true
 	} else {
 		log.Printf("Fade error: %s\n", err)
+		return false
 	}
 }
 
-var PerformClear = func(ctx context.Context) {
+var PerformRainbow = func(ctx context.Context) bool {
+	conn := createServiceConnection()
+	defer func() {
+		if err := conn.Close(); err != nil {
+			log.Printf("%s\n", err)
+		}
+	}()
+	client := NewHardwareCommandClient(conn)
+	_, err := client.Rainbow(ctx, &RainbowRequest{})
+	if err == nil {
+		log.Printf("Successfully performed rainbow\n")
+		return true
+	} else {
+		log.Printf("Rainbow error: %s\n", err)
+		return false
+	}
+}
+
+var PerformClear = func(ctx context.Context) bool {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -78,12 +100,14 @@ var PerformClear = func(ctx context.Context) {
 	_, err := client.Clear(ctx, &ClearRequest{})
 	if err == nil {
 		log.Printf("Successfully performed clear\n")
+		return true
 	} else {
 		log.Printf("Clear error: %s\n", err)
+		return false
 	}
 }
 
-var PerformTest = func(ctx context.Context) {
+var PerformTest = func(ctx context.Context) bool {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -94,8 +118,10 @@ var PerformTest = func(ctx context.Context) {
 	_, err := client.Test(ctx, &TestRequest{})
 	if err == nil {
 		log.Printf("Successfully performed test\n")
+		return true
 	} else {
 		log.Printf("Test error: %s\n", err)
+		return false
 	}
 }
 

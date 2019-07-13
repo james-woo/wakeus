@@ -27,6 +27,7 @@ func main() {
 	// Perform
 	router.HandleFunc("/api/command/basic", controllers.Basic).Methods("POST")
 	router.HandleFunc("/api/command/fade", controllers.Fade).Methods("POST")
+	router.HandleFunc("/api/command/rainbow", controllers.Rainbow).Methods("POST")
 	router.HandleFunc("/api/command/clear", controllers.Clear).Methods("POST")
 
 	port := os.Getenv("PORT")

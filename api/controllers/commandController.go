@@ -49,6 +49,13 @@ var Fade = func(w http.ResponseWriter, r *http.Request) {
 	utils.Respond(w, resp)
 }
 
+var Rainbow = func(w http.ResponseWriter, r *http.Request) {
+	fmt.Printf("%s: Performing hardware rainbow\n", time.Now())
+	rpc.PerformRainbow(r.Context())
+	resp := utils.Message(true, "success")
+	utils.Respond(w, resp)
+}
+
 var Clear = func(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("%s: Performing hardware clear\n", time.Now())
 	rpc.PerformClear(r.Context())
