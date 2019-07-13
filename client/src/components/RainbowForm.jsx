@@ -7,7 +7,7 @@ export class RainbowForm extends Component {
   }
 
   perform() {
-    let host = process.env.API_SERVICE_HOST || "localhost";
+    let host = process.env.REACT_APP_HOST_IP_ADDRESS || "192.168.1.52";
     console.log(`Request rainbow to host ${host}`);
     fetch(`http://${host}:8000/api/command/rainbow`, {
       method: 'POST',
