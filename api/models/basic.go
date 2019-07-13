@@ -13,5 +13,5 @@ package models
 */
 type Basic struct {
 	Color Color `json:"color"`
-	Intensity int `json:"intensity"`
+	Intensity float32 `json:"intensity"`
 }

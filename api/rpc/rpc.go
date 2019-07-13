@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-var PerformBasic = func(ctx context.Context, color models.Color, intensity int) bool {
+var PerformBasic = func(ctx context.Context, color models.Color, intensity float32) bool {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -24,7 +24,7 @@ var PerformBasic = func(ctx context.Context, color models.Color, intensity int) 
 				G: int32(color.G),
 				B: int32(color.B),
 			},
-			Intensity: int32(intensity),
+			Intensity: intensity,
 		},
 	)
 	if err == nil {
@@ -36,7 +36,7 @@ var PerformBasic = func(ctx context.Context, color models.Color, intensity int) 
 	}
 }
 
-var PerformFade = func(ctx context.Context, startColor models.Color, endColor models.Color, startIntensity int, endIntensity int, duration int) bool {
+var PerformFade = func(ctx context.Context, startColor models.Color, endColor models.Color, startIntensity float32, endIntensity float32, duration int) bool {
 	conn := createServiceConnection()
 	defer func() {
 		if err := conn.Close(); err != nil {
@@ -57,8 +57,8 @@ var PerformFade = func(ctx context.Context, startColor models.Color, endColor mo
 				G: int32(endColor.G),
 				B: int32(endColor.B),
 			},
-			StartIntensity: int32(startIntensity),
-			EndIntensity: int32(endIntensity),
+			StartIntensity: startIntensity,
+			EndIntensity: endIntensity,
 			Duration: int32(duration),
 		},
 	)

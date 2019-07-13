@@ -10,7 +10,7 @@ message Color {
 
 message BasicRequest {
     Color color = 1;
-    int32 intensity = 2;
+    float intensity = 2;
 }
 
 message BasicResponse {
@@ -20,8 +20,8 @@ message BasicResponse {
 message FadeRequest {
     Color startColor = 1;
     Color endColor = 2;
-    int32 startIntensity = 3;
-    int32 endIntensity = 4;
+    float startIntensity = 3;
+    float endIntensity = 4;
     int32 duration = 5;
 }
 

@@ -22,7 +22,7 @@ export class BasicForm extends Component {
   perform() {
     console.log(`Request basic: 
       color: ${this.state.color},  
-      end_intensity: ${this.state.intensity}`
+      intensity: ${this.state.color.a}`
     );
     let host = process.env.API_SERVICE_HOST || "localhost";
     fetch(`http://${host}:8000/api/command/basic`, {

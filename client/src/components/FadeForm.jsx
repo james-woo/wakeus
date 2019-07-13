@@ -40,8 +40,8 @@ export class FadeForm extends Component {
     console.log(`Request fade: 
       start_color: ${this.state.color1}, 
       end_color: ${this.state.color2}, 
-      start_intensity: ${this.state.start_intensity}, 
-      end_intensity: ${this.state.end_intensity}, 
+      start_intensity: ${this.state.color1.a}, 
+      end_intensity: ${this.state.color2.a}, 
       duration: ${this.state.duration}`
     );
     let host = process.env.API_SERVICE_HOST || "localhost";
@@ -58,12 +58,12 @@ export class FadeForm extends Component {
           b: this.state.color1.b
         },
         end_color: {
-          r: this.state.color1.r,
-          g: this.state.color1.g,
-          b: this.state.color1.b
+          r: this.state.color2.r,
+          g: this.state.color2.g,
+          b: this.state.color2.b
         },
         start_intensity: this.state.color1.a,
-        end_intensity: this.state.color1.a,
+        end_intensity: this.state.color2.a,
         duration: this.state.duration
       })
     }).then(

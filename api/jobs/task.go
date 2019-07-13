@@ -24,7 +24,7 @@ var LaunchJobs = func(ctx context.Context) {
 
 var AddJob = func(ctx context.Context, task *models.Task) {
 	c := cron.New()
-	fmt.Printf("%s: Adding task: %s %s %s\n", time.Now(), task.Type, task.Data, task.Schedule)
+	fmt.Printf("%s: Adding task: %d %s %s %s\n", time.Now(), task.ID, task.Type, task.Data, task.Schedule)
 	switch task.Type {
 	case "basic":
 		{

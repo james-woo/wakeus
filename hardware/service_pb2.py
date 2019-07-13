@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='rpc',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\rservice.proto\x12\x03rpc\"(\n\x05\x43olor\x12\t\n\x01r\x18\x01 \x01(\x05\x12\t\n\x01g\x18\x02 \x01(\x05\x12\t\n\x01\x62\x18\x03 \x01(\x05\"<\n\x0c\x42\x61sicRequest\x12\x19\n\x05\x63olor\x18\x01 \x01(\x0b\x32\n.rpc.Color\x12\x11\n\tintensity\x18\x02 \x01(\x05\"\x1f\n\rBasicResponse\x12\x0e\n\x06result\x18\x01 \x01(\x08\"\x8b\x01\n\x0b\x46\x61\x64\x65Request\x12\x1e\n\nstartColor\x18\x01 \x01(\x0b\x32\n.rpc.Color\x12\x1c\n\x08\x65ndColor\x18\x02 \x01(\x0b\x32\n.rpc.Color\x12\x16\n\x0estartIntensity\x18\x03 \x01(\x05\x12\x14\n\x0c\x65ndIntensity\x18\x04 \x01(\x05\x12\x10\n\x08\x64uration\x18\x05 \x01(\x05\"\x10\n\x0eRainbowRequest\"!\n\x0fRainbowResponse\x12\x0e\n\x06result\x18\x01 \x01(\x08\"\x1e\n\x0c\x46\x61\x64\x65Response\x12\x0e\n\x06result\x18\x01 \x01(\x08\"\r\n\x0bTestRequest\"\x1e\n\x0cTestResponse\x12\x0e\n\x06result\x18\x01 \x01(\x08\"\x0e\n\x0c\x43learRequest\"\x1f\n\rClearResponse\x12\x0e\n\x06result\x18\x01 \x01(\x08\x32\x81\x02\n\x0fHardwareCommand\x12.\n\x05\x42\x61sic\x12\x11.rpc.BasicRequest\x1a\x12.rpc.BasicResponse\x12+\n\x04\x46\x61\x64\x65\x12\x10.rpc.FadeRequest\x1a\x11.rpc.FadeResponse\x12\x34\n\x07Rainbow\x12\x13.rpc.RainbowRequest\x1a\x14.rpc.RainbowResponse\x12.\n\x05\x43lear\x12\x11.rpc.ClearRequest\x1a\x12.rpc.ClearResponse\x12+\n\x04Test\x12\x10.rpc.TestRequest\x1a\x11.rpc.TestResponseb\x06proto3')
+  serialized_pb=_b('\n\rservice.proto\x12\x03rpc\"(\n\x05\x43olor\x12\t\n\x01r\x18\x01 \x01(\x05\x12\t\n\x01g\x18\x02 \x01(\x05\x12\t\n\x01\x62\x18\x03 \x01(\x05\"<\n\x0c\x42\x61sicRequest\x12\x19\n\x05\x63olor\x18\x01 \x01(\x0b\x32\n.rpc.Color\x12\x11\n\tintensity\x18\x02 \x01(\x02\"\x1f\n\rBasicResponse\x12\x0e\n\x06result\x18\x01 \x01(\x08\"\x8b\x01\n\x0b\x46\x61\x64\x65Request\x12\x1e\n\nstartColor\x18\x01 \x01(\x0b\x32\n.rpc.Color\x12\x1c\n\x08\x65ndColor\x18\x02 \x01(\x0b\x32\n.rpc.Color\x12\x16\n\x0estartIntensity\x18\x03 \x01(\x02\x12\x14\n\x0c\x65ndIntensity\x18\x04 \x01(\x02\x12\x10\n\x08\x64uration\x18\x05 \x01(\x05\"\x10\n\x0eRainbowRequest\"!\n\x0fRainbowResponse\x12\x0e\n\x06result\x18\x01 \x01(\x08\"\x1e\n\x0c\x46\x61\x64\x65Response\x12\x0e\n\x06result\x18\x01 \x01(\x08\"\r\n\x0bTestRequest\"\x1e\n\x0cTestResponse\x12\x0e\n\x06result\x18\x01 \x01(\x08\"\x0e\n\x0c\x43learRequest\"\x1f\n\rClearResponse\x12\x0e\n\x06result\x18\x01 \x01(\x08\x32\x81\x02\n\x0fHardwareCommand\x12.\n\x05\x42\x61sic\x12\x11.rpc.BasicRequest\x1a\x12.rpc.BasicResponse\x12+\n\x04\x46\x61\x64\x65\x12\x10.rpc.FadeRequest\x1a\x11.rpc.FadeResponse\x12\x34\n\x07Rainbow\x12\x13.rpc.RainbowRequest\x1a\x14.rpc.RainbowResponse\x12.\n\x05\x43lear\x12\x11.rpc.ClearRequest\x1a\x12.rpc.ClearResponse\x12+\n\x04Test\x12\x10.rpc.TestRequest\x1a\x11.rpc.TestResponseb\x06proto3')
 )
 
 
@@ -87,8 +87,8 @@ _BASICREQUEST = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='intensity', full_name='rpc.BasicRequest.intensity', index=1,
-      number=2, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -163,15 +163,15 @@ _FADEREQUEST = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='startIntensity', full_name='rpc.FadeRequest.startIntensity', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='endIntensity', full_name='rpc.FadeRequest.endIntensity', index=3,
-      number=4, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
