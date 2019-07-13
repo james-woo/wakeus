@@ -20,7 +20,12 @@ export class BasicForm extends Component {
   }
 
   perform() {
-    fetch('http://192.168.1.52:8000/api/command/basic', {
+    console.log(`Request basic: 
+      color: ${this.state.color},  
+      end_intensity: ${this.state.intensity}`
+    );
+    let host = process.env.API_SERVICE_HOST || "localhost";
+    fetch(`http://${host}:8000/api/command/basic`, {
       method: 'POST',
       cors: 'enabled',
       headers: {

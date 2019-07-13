@@ -1,4 +1,4 @@
-import React, { Component }  from 'react';
+import React, {Component} from 'react';
 import {ChromePicker} from "react-color";
 
 export class FadeForm extends Component {
@@ -37,7 +37,15 @@ export class FadeForm extends Component {
   }
 
   perform() {
-    fetch('http://192.168.1.52:8000/api/command/fade', {
+    console.log(`Request fade: 
+      start_color: ${this.state.color1}, 
+      end_color: ${this.state.color2}, 
+      start_intensity: ${this.state.start_intensity}, 
+      end_intensity: ${this.state.end_intensity}, 
+      duration: ${this.state.duration}`
+    );
+    let host = process.env.API_SERVICE_HOST || "localhost";
+    fetch(`http://${host}:8000/api/command/fade`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -86,7 +94,7 @@ export class FadeForm extends Component {
         />
         <p>Duration</p>
         <input type="number" name="duration" value={this.state.duration} onChange={this.handleChangeDuration}/>
-        <button style={{padding:10}} onClick={this.perform}>Fade</button>
+        <button style={{padding: 10}} onClick={this.perform}>Fade</button>
       </div>
     );
   }

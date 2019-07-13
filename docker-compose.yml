@@ -50,6 +50,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.client
+    environment:
+      - API_SERVICE_HOST=hardware:50051
     links:
       - api:api
     depends_on:

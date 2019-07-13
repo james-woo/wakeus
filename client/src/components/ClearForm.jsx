@@ -7,7 +7,9 @@ export class ClearForm extends Component {
   }
 
   perform() {
-    fetch('http://192.168.1.52:8000/api/command/rainbow', {
+    console.log(`Request clear`);
+    let host = process.env.API_SERVICE_HOST || "localhost";
+    fetch(`http://${host}:8000/api/command/clear`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
