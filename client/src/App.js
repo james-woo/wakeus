@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 
 let basic = () => {
-  let request = fetch('http://localhost:8000/api/command/basic', {
+  let request = fetch('192.168.1.52:8888/api/command/basic', {
     method: 'POST',
     cors: 'enabled',
     headers: {
