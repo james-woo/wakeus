@@ -1,7 +1,7 @@
 FROM arm32v7/node:8-stretch-slim
 
-ADD ./wakeus/client/yarn.lock /yarn.lock
-ADD ./wakues/client/package.json /package.json
+ADD ./client/yarn.lock /yarn.lock
+ADD ./client/package.json /package.json
 
 ENV NODE_PATH=/node_modules
 ENV PATH=$PATH:/node_modules/.bin
