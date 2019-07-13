@@ -20,7 +20,7 @@ export class BasicForm extends Component {
   }
 
   perform() {
-    fetch('http://localhost:8000/api/command/basic', {
+    fetch('http://192.168.1.52:8000/api/command/basic', {
       method: 'POST',
       cors: 'enabled',
       headers: {
