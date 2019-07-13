@@ -7,7 +7,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/james-woo/wakeus/api/controllers"
 	"github.com/james-woo/wakeus/api/jobs"
-	"github.com/james-woo/wakeus/api/models"
 	"github.com/james-woo/wakeus/api/rpc"
 	"log"
 	"net/http"
@@ -40,18 +39,8 @@ func main() {
 	jobs.LaunchJobs(context.Background())
 
 	//Perform hardware test
-	fmt.Printf("Performing hardware fade\n")
-	rpc.PerformFade(
-		context.Background(),
-		models.Color{R: 0, G: 0, B: 0},
-		models.Color{R: 255, G: 255, B: 255},
-		0,
-		1,
-		3000,
-	)
-
-	fmt.Printf("Performing hardware clear\n")
-	rpc.PerformClear(context.Background())
+	fmt.Printf("Performing hardware test\n")
+	rpc.PerformTest(context.Background())
 
 	// Launch app, visit localhost:8000/api
 	fmt.Printf("Running on localhost:%s\n", port)
