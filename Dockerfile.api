@@ -2,6 +2,8 @@ FROM arm32v7/golang:1.11-alpine
 
 ENV GOPATH=/app
 
+RUN apk add git
+
 RUN go get -u google.golang.org/grpc \
  && go get -u google.golang.org/grpc/codes \
  && go get -u google.golang.org/grpc/status \
