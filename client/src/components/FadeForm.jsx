@@ -37,7 +37,7 @@ export class FadeForm extends Component {
   }
 
   perform() {
-    fetch('192.168.1.52:8000/api/command/fade', {
+    fetch('http://localhost:8000/api/command/fade', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

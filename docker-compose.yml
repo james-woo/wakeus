@@ -57,9 +57,9 @@ services:
       - api
       - hardware
     ports:
-      - 8080:8080
+      - 3000:3000
     expose:
-      - 8080
+      - 3000
     command: ["yarn", "start | cat"]
 
 volumes:
