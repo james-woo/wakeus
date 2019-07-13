@@ -7,7 +7,7 @@ export class FadeForm extends Component {
     this.state = {
       color1: '#ffffff',
       color2: '#ffffff',
-      duration: 5
+      duration: 5000
     };
 
     this.handleChangeColor1 = this.handleChangeColor1.bind(this);
@@ -39,8 +39,8 @@ export class FadeForm extends Component {
   perform() {
     let host = process.env.REACT_APP_HOST_IP_ADDRESS || "192.168.1.52";
     console.log(`Request fade: 
-      start_color: ${this.state.color1}, 
-      end_color: ${this.state.color2}, 
+      start_color: ${JSON.stringify(this.state.color1)}, 
+      end_color: ${JSON.stringify(this.state.color2)}, 
       start_intensity: ${this.state.color1.a}, 
       end_intensity: ${this.state.color2.a}, 
       duration: ${this.state.duration} 

@@ -22,7 +22,7 @@ export class BasicForm extends Component {
   perform() {
     let host = process.env.REACT_APP_HOST_IP_ADDRESS || "192.168.1.52";
     console.log(`Request basic: 
-      color: ${this.state.color},  
+      color: ${JSON.stringify(this.state.color)},  
       intensity: ${this.state.color.a} 
       to host ${host}`
     );
