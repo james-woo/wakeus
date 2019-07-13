@@ -7,7 +7,7 @@ export class ClearForm extends Component {
   }
 
   perform() {
-    fetch('http://api:8000/api/command/rainbow', {
+    fetch('http://localhost:8000/api/command/rainbow', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
