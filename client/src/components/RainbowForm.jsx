@@ -7,7 +7,7 @@ export class RainbowForm extends Component {
   }
 
   perform() {
-    fetch('http://localhost:8000/api/command/rainbow', {
+    fetch('http://api:8000/api/command/rainbow', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

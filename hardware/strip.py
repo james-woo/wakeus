@@ -81,13 +81,8 @@ class Strip:
             {'r': 255, 'g': 130, 'b': 40},
             0.5,
             1.0,
-            10000
+            3000
         )
-        print('Solid color', flush=True)
-        self.solid_color({'r': 255, 'g': 0, 'b': 0}, 1, 200)
-        self.solid_color({'r': 0, 'g': 255, 'b': 0}, 1, 200)
-        self.solid_color({'r': 0, 'g': 0, 'b': 255}, 1, 200)
-        self.solid_color({'r': 255, 'g': 255, 'b': 255}, 1, 200)
         print('Rainbow', flush=True)
         self.rainbow()
         self.clear()
