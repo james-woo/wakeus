@@ -34,6 +34,9 @@ class Strip:
 
     def fade(self, color1, color2, intensity1, intensity2=1.0, duration_ms=5000):
         """Fade between two colors over a duration"""
+        if intensity2 < intensity1:
+            return False
+
         pixels = self.strip.numPixels()
         t, step, red, green, blue = 100, 0, 0, 0, 0
         while step < 1:
@@ -48,7 +51,7 @@ class Strip:
                     green if green > 0 else 0,
                     blue if blue > 0 else 0
                 )
-            brightness = int(255 * (intensity2 - intensity1) * step)
+            brightness = int(255 * (intensity1 + (intensity2 - intensity1) * step))
             self.strip.setBrightness(brightness)
             self.strip.show()
             time.sleep(t/1000.0)
