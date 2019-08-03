@@ -5,6 +5,7 @@ export class RainbowForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      disabled: false,
       cycles: 1
     };
     this.handleChangeCycles = this.handleChangeCycles.bind(this);
@@ -18,6 +19,7 @@ export class RainbowForm extends Component {
   }
 
   perform() {
+    this.setState({disabled: true});
     let host = process.env.REACT_APP_HOST_IP_ADDRESS || "192.168.1.52";
     console.log(`Request fade: 
       cycles: ${this.state.cycles} 
@@ -36,6 +38,7 @@ export class RainbowForm extends Component {
       (response) => {
         if (response.ok) {
           console.log("Rainbow success:", response.statusText);
+          this.setState({disabled: false});
         } else {
           console.log("Rainbow error");
         }

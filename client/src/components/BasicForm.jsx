@@ -6,6 +6,7 @@ export class BasicForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      disabled: false,
       color: {
         rgb: {r: 250, g: 0, b: 4, a: 1.0},
         hsl: {h: 360, s: 1, l:0.5, a:1.0}
@@ -20,7 +21,8 @@ export class BasicForm extends Component {
     this.setState(color);
   }
 
-  perform() {
+  async perform() {
+    this.setState({disabled: true});
     let host = process.env.REACT_APP_HOST_IP_ADDRESS || "192.168.1.52";
     console.log(`Request basic: 
       color: ${JSON.stringify(this.state.color.rgb)},
@@ -46,6 +48,7 @@ export class BasicForm extends Component {
       (response) => {
         if (response.ok) {
           console.log("Basic success:", response.statusText);
+          this.setState({disabled: false});
         } else {
           console.log("Basic error");
         }
@@ -63,7 +66,11 @@ export class BasicForm extends Component {
           color={this.state.color}
           onChange={this.onChange}/>
         <br/>
-        <Button onClick={this.perform}>Perform</Button>
+        <Button 
+          disabled={this.state.disabled}
+          onClick={this.perform}>
+          Perform
+        </Button>
       </Segment>
     );
   }

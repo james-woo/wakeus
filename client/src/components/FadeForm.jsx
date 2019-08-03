@@ -6,6 +6,7 @@ export class FadeForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      disabled: false,
       color1: {
         rgb: {r: 255, g: 0, b: 4, a: 1},
         hsl: {h: 360, s: 1, l: 0.5, a: 1}
@@ -50,6 +51,7 @@ export class FadeForm extends Component {
   }
 
   perform() {
+    this.setState({disabled: true});
     let host = process.env.REACT_APP_HOST_IP_ADDRESS || "192.168.1.52";
     console.log(`Request fade: 
       start_color: ${JSON.stringify(this.state.color1.rgb)}, 
@@ -84,6 +86,7 @@ export class FadeForm extends Component {
       (response) => {
         if (response.ok) {
           console.log("Fade success: " + response.statusText);
+          this.setState({disabled: false});
         } else {
           console.log("Fade error");
         }
