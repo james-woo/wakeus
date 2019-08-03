@@ -68,7 +68,7 @@ if __name__ == '__main__':
 
     # Create server
     host = '[::]:%s' % parser.parse_args(['--port']).port
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
     server.add_insecure_port(host)
     service_pb2_grpc.add_HardwareCommandServicer_to_server(HardwareServicer(), server)
 
