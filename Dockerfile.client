@@ -9,5 +9,3 @@ RUN yarn --network-timeout 600000
 
 COPY . /wakeus
 WORKDIR /wakeus/client
-
-CMD ["yarn start"]

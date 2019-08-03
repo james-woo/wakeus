@@ -21,5 +21,3 @@ RUN go get -u google.golang.org/grpc \
 
 COPY . /app/src/github.com/james-woo/wakeus
 WORKDIR /app/src/github.com/james-woo/wakeus/api
-
-CMD ["go", "run", "main.go"]

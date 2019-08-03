@@ -19,5 +19,3 @@ RUN wget https://github.com/jgarff/rpi_ws281x/archive/master.zip \
 
 COPY . /wakeus
 WORKDIR /wakeus/hardware
-
-CMD ["python", "server.py"]
