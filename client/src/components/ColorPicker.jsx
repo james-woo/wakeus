@@ -11,7 +11,7 @@ export class ColorPicker extends Component {
       color: this.props.color
     };
     this.onRadialColorChange = this.onRadialColorChange.bind(this);
-    this.onChange = this.onChange.bind(this);
+    this.onQuickColorChange = this.onQuickColorChange.bind(this);
   }
 
   onRadialColorChange({ hue, saturation, luminosity, alpha }) {
@@ -26,8 +26,8 @@ export class ColorPicker extends Component {
         },
         hsl: {
           h: hue,
-          s: saturation/100,
-          l: luminosity/100,
+          s: 1,
+          l: 0.5,
           a: alpha
         }
       }
@@ -36,7 +36,7 @@ export class ColorPicker extends Component {
     this.props.onChange && this.props.onChange(color);
   };
 
-  onChange(e) {
+  onQuickColorChange(e) {
     let color = {
       color: {
         rgb: {
@@ -72,7 +72,7 @@ export class ColorPicker extends Component {
           <Grid.Row centered>
             <CirclePicker
               colors={['#FF0000', '#FF7F00', '#00FF00', '#FFFF00', '#0000FF', '#4B0082', '#8B00FF', '#FFFFFF']}
-              onChangeComplete={this.onChange}/>
+              onChangeComplete={this.onQuickColorChange}/>
           </Grid.Row>
           <Grid.Row centered>
             <AlphaPicker
@@ -82,7 +82,7 @@ export class ColorPicker extends Component {
                 l: this.state.color.hsl.l,
                 a: this.state.color.hsl.a
               }}
-              onChange={this.onChange}/>
+              onChange={this.onQuickColorChange}/>
           </Grid.Row>
         </Grid>
       </div>
