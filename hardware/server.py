@@ -50,7 +50,6 @@ class HardwareServicer(service_pb2_grpc.HardwareCommandServicer):
 
     def Clear(self, request, context):
         print("Perform Clear", request, context, flush=True)
-        executor.shutdown(wait=False)
         strip.clear()
         return service_pb2.ClearResponse(result=True)
 
