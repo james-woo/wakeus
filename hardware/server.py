@@ -50,6 +50,7 @@ class HardwareServicer(service_pb2_grpc.HardwareCommandServicer):
 
     def Clear(self, request, context):
         print("Perform Clear", request, context, flush=True)
+        executor.shutdown(wait=False)
         strip.clear()
         return service_pb2.ClearResponse(result=True)
 
@@ -68,7 +69,8 @@ if __name__ == '__main__':
 
     # Create server
     host = '[::]:%s' % parser.parse_args(['--port']).port
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
+    executor = futures.ThreadPoolExecutor(max_workers=2)
+    server = grpc.server(executor)
     server.add_insecure_port(host)
     service_pb2_grpc.add_HardwareCommandServicer_to_server(HardwareServicer(), server)
 
