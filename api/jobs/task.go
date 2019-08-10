@@ -34,7 +34,7 @@ var AddJob = func(ctx context.Context, task *models.Task) {
 				if err := json.Unmarshal([]byte(task.Data), &basic); err != nil {
 					log.Fatal(err)
 				}
-				rpc.PerformBasic(
+				_, _ = rpc.PerformBasic(
 					ctx,
 					models.Color{R: basic.Color.R, G: basic.Color.G, B: basic.Color.B},
 					basic.Intensity,
@@ -53,7 +53,7 @@ var AddJob = func(ctx context.Context, task *models.Task) {
 				if err := json.Unmarshal([]byte(task.Data), &fade); err != nil {
 					log.Fatal(err)
 				}
-				rpc.PerformFade(
+				_, _ = rpc.PerformFade(
 					ctx,
 					models.Color{R: fade.StartColor.R, G: fade.StartColor.G, B: fade.StartColor.B},
 					models.Color{R: fade.EndColor.R, G: fade.EndColor.G, B: fade.EndColor.B},
@@ -71,7 +71,7 @@ var AddJob = func(ctx context.Context, task *models.Task) {
 		{
 			id, err := c.AddFunc(task.Schedule, func() {
 				fmt.Printf("%s: Performing hardware clear\n", time.Now())
-				rpc.PerformClear(ctx)
+				_, _ = rpc.PerformClear(ctx)
 			})
 			if err != nil {
 				log.Fatal(err)
