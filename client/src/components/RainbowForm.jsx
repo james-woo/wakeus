@@ -21,7 +21,7 @@ export class RainbowForm extends Component {
   perform() {
     this.setState({disabled: true});
     let host = process.env.REACT_APP_HOST_IP_ADDRESS || "192.168.1.52";
-    console.log(`Request fade: 
+    console.log(`Request rainbow: 
       cycles: ${this.state.cycles} 
       to host ${host}`
     );
