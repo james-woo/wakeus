@@ -3,11 +3,12 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"time"
+
 	"github.com/james-woo/wakeus/api/models"
 	"github.com/james-woo/wakeus/api/rpc"
 	"github.com/james-woo/wakeus/api/utils"
-	"net/http"
-	"time"
 )
 
 var Basic = func(w http.ResponseWriter, r *http.Request) {

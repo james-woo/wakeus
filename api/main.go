@@ -3,14 +3,15 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/http"
+	"os"
+
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/james-woo/wakeus/api/controllers"
 	"github.com/james-woo/wakeus/api/jobs"
 	"github.com/james-woo/wakeus/api/rpc"
-	"log"
-	"net/http"
-	"os"
 )
 
 // env GOOS=linux GOARCH=arm GOARM=5 go build
@@ -28,6 +29,9 @@ func main() {
 	router.HandleFunc("/api/command/fade", controllers.Fade).Methods("POST")
 	router.HandleFunc("/api/command/rainbow", controllers.Rainbow).Methods("POST")
 	router.HandleFunc("/api/command/clear", controllers.Clear).Methods("POST")
+
+	router.HandleFunc("/api/settings", controllers.UpdateSettings).Methods("POST")
+	router.HandleFunc("/api/settings", controllers.Settings).Methods("GET")
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -49,5 +53,5 @@ func main() {
 		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}),
 		handlers.AllowedOrigins([]string{"*"}),
 	)
-	log.Fatal(http.ListenAndServe(":" + port, handler(router)))
+	log.Fatal(http.ListenAndServe(":"+port, handler(router)))
 }

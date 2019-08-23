@@ -2,12 +2,13 @@ package controllers
 
 import (
 	"encoding/json"
+	"net/http"
+	"strconv"
+
 	"github.com/gorilla/mux"
 	"github.com/james-woo/wakeus/api/jobs"
 	"github.com/james-woo/wakeus/api/models"
 	"github.com/james-woo/wakeus/api/utils"
-	"net/http"
-	"strconv"
 )
 
 var CreateTask = func(w http.ResponseWriter, r *http.Request) {

@@ -7,6 +7,7 @@ import {RainbowForm} from "./components/RainbowForm";
 import {FadeForm} from "./components/FadeForm";
 import {Link, Route, BrowserRouter as Router} from "react-router-dom";
 import {Menu} from "semantic-ui-react";
+import { SettingsForm } from './components/SettingsForm';
 
 function App() {
   return (
@@ -22,10 +23,14 @@ function App() {
           <Menu.Item name='rainbow'>
             <Link to="/rainbow">Rainbow</Link>
           </Menu.Item>
+          <Menu.Item name='settings'>
+            <Link to="/settings">Settings</Link>
+          </Menu.Item>
         </Menu>
         <Route path="/basic" component={BasicForm} />
         <Route path="/fade" component={FadeForm} />
         <Route path="/rainbow" component={RainbowForm} />
+        <Route path="/settings" component={SettingsForm} />
       </Router>
       <ClearForm/>
     </div>
