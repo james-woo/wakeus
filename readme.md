@@ -53,6 +53,19 @@ Here is what the initial prototype looks like.
 Corresponding wiring diagram
 ![sketch](./images/sketch.png)
 
+### Final Setup
+Top of PCB
+
+<img src="https://user-images.githubusercontent.com/8840965/67641259-52a96100-f8d7-11e9-8f6a-2c480f0aa872.png" height=400/>
+
+Bottom of PCB
+
+<img src="https://user-images.githubusercontent.com/8840965/67641295-c0ee2380-f8d7-11e9-8980-783997aa1985.png" height=400/>
+
+LEDs
+
+<img src="https://user-images.githubusercontent.com/8840965/67641362-2c37f580-f8d8-11e9-8e95-f80bc0aff757.png" height=400/>
+
 ## Raspberry Pi Zero W Headless Setup
 Setup your Pi without a screen
 1. Download [Raspian Stretch Lite](https://www.raspberrypi.org/downloads/raspbian/) ("lite" means no GUI)
